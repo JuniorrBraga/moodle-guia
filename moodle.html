@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Interativo de Instalação do Moodle 4.2 LTS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar {
+            background-color: #f8f9fa; 
+            border-right: 1px solid #e0e0e0;
+        }
+        .sidebar-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            font-size: 0.9rem;
+        }
+        .sidebar-item:hover {
+            background-color: #e9ecef; 
+        }
+        .sidebar-item.active {
+            background-color: #007bff; 
+            color: white;
+            font-weight: 600;
+        }
+        .sidebar-item.active:hover {
+            background-color: #0069d9;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .code-block {
+            background-color: #2d3748; 
+            color: #e2e8f0; 
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4a5568; 
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .copy-button:hover {
+            background-color: #2d3748; 
+        }
+        .nav-button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+        .nav-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .prose h2 { margin-top: 1.5em; margin-bottom: 0.5em; font-size: 1.5em; font-weight: 600; }
+        .prose h3 { margin-top: 1.25em; margin-bottom: 0.4em; font-size: 1.25em; font-weight: 600; }
+        .prose p { margin-bottom: 1em; line-height: 1.6; }
+        .prose ul { margin-left: 1.5em; list-style-type: disc; margin-bottom: 1em; }
+        .prose li { margin-bottom: 0.25em; }
+        .prose strong { font-weight: 600; }
+        .prose em { font-style: italic; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="min-h-screen flex flex-col md:flex-row">
+        <aside id="sidebar" class="w-full md:w-1/4 lg:w-1/5 sidebar p-0 md:fixed md:h-screen md:overflow-y-auto">
+            <div class="p-4 text-xl font-semibold text-gray-700 bg-gray-200">Passos da Instalação</div>
+            <nav id="step-navigation">
+                </nav>
+        </aside>
+
+        <main class="w-full md:ml-[25%] lg:ml-[20%] p-6 md:p-10 flex-1">
+            <header class="mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-700">Guia Interativo de Instalação do Moodle 4.2 LTS</h1>
+                <p class="mt-2 text-gray-600">Siga os passos abaixo para instalar o Moodle em seu servidor Ubuntu ou Debian.</p>
+                <p class="mt-2 text-gray-600">Feito por Luciano Junior e Rafael Florindo.</p>
+                <p class="mt-2 text-gray-600">GitHub: JuniorrBraga and RafaellFlorindo</p>
+            </header>
+
+            <div id="content-area" class="prose max-w-none bg-white p-6 rounded-lg shadow-md">
+                </div>
+
+            <div id="navigation-buttons" class="mt-8 flex justify-between">
+                <button id="prev-step" class="nav-button">Anterior</button>
+                <button id="next-step" class="nav-button">Próximo</button>
+            </div>
+            
+            <div id="copy-message" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-md shadow-lg transition-opacity duration-300 opacity-0">
+                Comando copiado!
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const steps = [
+            {
+                id: "intro-app",
+                title: "Introdução ao Guia",
+                content: `
+                    <h2>Bem-vindo ao Guia Interativo de Instalação do Moodle!</h2>
+                    <p>Este guia foi criado para transformar o processo de instalação do Moodle 4.2 LTS em uma experiência mais clara e gerenciável. Aqui, você encontrará cada passo detalhado, com explicações e os comandos necessários que podem ser facilmente copiados.</p>
+                    <p><strong>Como usar este guia:</strong></p>
+                    <ul>
+                        <li>Use o menu à esquerda para navegar entre os diferentes passos da instalação.</li>
+                        <li>Cada passo contém uma descrição do que será feito e os comandos de terminal correspondentes.</li>
+                        <li>Clique no botão "Copiar" ao lado de cada bloco de comando para copiá-lo para sua área de transferência.</li>
+                        <li>Utilize os botões "Anterior" e "Próximo" para seguir a sequência de instalação.</li>
+                    </ul>
+                    <p>O objetivo é facilitar a configuração do seu ambiente Moodle, seja você um estudante aprendendo sobre servidores ou um administrador configurando uma nova instância. Vamos começar!</p>
+                `
+            },
+            {
+                id: "step1",
+                title: "Passo 1: Atualizar Pacotes",
+                content: `
+                    <h2>Passo 1: Atualizar os Pacotes do Sistema</h2>
+                    <p>É sempre uma boa prática começar atualizando a lista de pacotes e os pacotes instalados no seu sistema. Isso garante que você tenha as últimas atualizações de segurança e software.</p>
+                    <p>1. Abra seu terminal SSH e execute os seguintes comandos:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo apt update\nsudo apt upgrade -y</code></pre>
+                    </div>
+                    <ul>
+                        <li><code>sudo apt update</code>: Atualiza a lista de pacotes disponíveis nos repositórios.</li>
+                        <li><code>sudo apt upgrade -y</code>: Atualiza todos os pacotes instalados para suas versões mais recentes. O <code>-y</code> confirma automaticamente todas as perguntas.</li>
+                    </ul>
+                `
+            },
+            {
+                id: "step2",
+                title: "Passo 2: Adicionar Repositório Sury",
+                content: `
+                    <h2>Passo 2: Adicionar o Repositório Sury para PHP 8.2</h2>
+                    <p>O PHP 8.2 pode não estar disponível nos repositórios padrão do seu sistema. Usaremos o repositório de Ondřej Surý, que é amplamente confiável para versões mais recentes do PHP.</p>
+                    <p>1. Instale as dependências necessárias para adicionar o repositório:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo apt install -y lsb-release apt-transport-https ca-certificates wget gnupg2 unzip curl</code></pre>
+                    </div>
+                    <p>2. Importe a chave GPG do repositório para garantir a autenticidade dos pacotes:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>wget -qO - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /usr/share/keyrings/sury.gpg</code></pre>
+                    </div>
+                    <p>3. Adicione o repositório PHP à sua lista de fontes:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>echo "deb [signed-by=/usr/share/keyrings/sury.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list</code></pre>
+                    </div>
+                    <p>4. Atualize novamente a lista de pacotes para que o sistema reconheça o novo repositório:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo apt update</code></pre>
+                    </div>
+                `
+            },
+            {
+                id: "step3",
+                title: "Passo 3: Instalar Apache, PHP e MariaDB",
+                content: `
+                    <h2>Passo 3: Instalar Apache, PHP 8.2 e MariaDB</h2>
+                    <p>Agora vamos instalar os principais componentes do nosso ambiente de servidor web: o servidor Apache, o PHP e o banco de dados MariaDB.</p>
+                    <p>1. Execute o comando para instalar o servidor web Apache, o PHP 8.2 e o servidor de banco de dados MariaDB:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo apt install -y apache2 mariadb-server php8.2 libapache2-mod-php8.2</code></pre>
+                    </div>
+                    <ul>
+                        <li><code>apache2</code>: O servidor web que irá servir as páginas do Moodle.</li>
+                        <li><code>mariadb-server</code>: O sistema de gerenciamento de banco de dados relacional.</li>
+                        <li><code>php8.2</code>: O interpretador PHP.</li>
+                        <li><code>libapache2-mod-php8.2</code>: O módulo que permite ao Apache processar arquivos PHP.</li>
+                    </ul>
+                `
+            },
+            {
+                id: "step4",
+                title: "Passo 4: Instalar Extensões PHP",
+                content: `
+                    <h2>Passo 4: Instalar Extensões PHP Obrigatórias para o Moodle</h2>
+                    <p>O Moodle exige várias extensões PHP para funcionar corretamente. Estas extensões adicionam funcionalidades essenciais ao PHP.</p>
+                    <p>1. Instale todas as extensões PHP necessárias:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo apt install -y php8.2-{cli,common,gd,xmlrpc,curl,mbstring,intl,xml,soap,zip,mysql,opcache,readline,bcmath}</code></pre>
+                    </div>
+                    <p>Cada extensão tem uma função específica, por exemplo: <code>gd</code> para manipulação de imagens, <code>mysql</code> para conexão com o banco de dados MariaDB, <code>zip</code> para manipulação de arquivos compactados, etc.</p>
+                `
+            },
+            {
+                id: "step5",
+                title: "Passo 5: Criar Banco de Dados",
+                content: `
+                    <h2>Passo 5: Criar Banco de Dados para o Moodle</h2>
+                    <p>O Moodle precisa de um banco de dados para armazenar suas informações, como usuários, cursos e notas. Vamos criar um banco de dados e um usuário específico para o Moodle no MariaDB.</p>
+                    <p>1. Acesse o console do MariaDB como usuário root:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo mysql</code></pre>
+                    </div>
+                    <p>2. Dentro do console do MariaDB, execute os seguintes comandos. <strong>Lembre-se de substituir <code>SuaSenhaMuitoSegura!</code> por uma senha forte e única!</strong></p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>CREATE DATABASE moodle DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\nCREATE USER 'moodleuser'@'localhost' IDENTIFIED BY 'SuaSenhaMuitoSegura!';\nGRANT ALL PRIVILEGES ON moodle.* TO 'moodleuser'@'localhost';\nFLUSH PRIVILEGES;\nEXIT;</code></pre>
+                    </div>
+                    <ul>
+                        <li><code>CREATE DATABASE moodle ...</code>: Cria um banco de dados chamado <code>moodle</code> com a codificação de caracteres correta para o Moodle.</li>
+                        <li><code>CREATE USER 'moodleuser'@'localhost' ...</code>: Cria um usuário <code>moodleuser</code> que só pode se conectar do <code>localhost</code> (o próprio servidor) com a senha que você definir.</li>
+                        <li><code>GRANT ALL PRIVILEGES ON moodle.* TO 'moodleuser'@'localhost'</code>: Concede todas as permissões ao <code>moodleuser</code> no banco de dados <code>moodle</code>.</li>
+                        <li><code>FLUSH PRIVILEGES</code>: Recarrega as tabelas de privilégios para que as novas permissões entrem em vigor.</li>
+                        <li><code>EXIT</code>: Sai do console do MariaDB.</li>
+                    </ul>
+                `
+            },
+            {
+                id: "step6",
+                title: "Passo 6: Baixar e Extrair Moodle",
+                content: `
+                    <h2>Passo 6: Baixar e Extrair o Moodle 4.2 LTS</h2>
+                    <p>Com o ambiente preparado, vamos baixar os arquivos do Moodle e colocá-los no diretório correto do Apache.</p>
+                    <p>1. Navegue até o diretório raiz do Apache:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>cd /var/www/html</code></pre>
+                    </div>
+                    <p>2. Remova o arquivo <code>index.html</code> padrão do Apache (se existir):</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo rm -f index.html</code></pre>
+                    </div>
+                    <p>3. Baixe o pacote do Moodle 4.2 LTS (versão estável):</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo wget https://download.moodle.org/download.php/direct/stable402/moodle-latest-402.zip -O moodle.zip</code></pre>
+                    </div>
+                    <p>4. Extraia o conteúdo do arquivo ZIP. Isso criará um diretório <code>moodle</code> dentro de <code>/var/www/html</code>:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo unzip moodle.zip</code></pre>
+                    </div>
+                    <p>5. Remova o arquivo ZIP baixado, pois não é mais necessário:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo rm moodle.zip</code></pre>
+                    </div>
+                `
+            },
+            {
+                id: "step7",
+                title: "Passo 7: Criar Diretório de Dados",
+                content: `
+                    <h2>Passo 7: Criar e Configurar o Diretório de Dados Seguro do Moodle</h2>
+                    <p>O Moodle precisa de um diretório para armazenar dados de usuários, arquivos de cursos e outras informações. Este diretório (<code>moodledata</code>) deve ser seguro e não acessível diretamente pela web.</p>
+                    <p>1. Crie o diretório <code>moodledata</code>:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo mkdir /var/www/moodledata</code></pre>
+                    </div>
+                    <p>2. Defina o proprietário do diretório para o usuário do servidor web (<code>www-data</code>):</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo chown -R www-data:www-data /var/www/moodledata</code></pre>
+                    </div>
+                    <p>3. Defina as permissões do diretório para que apenas o usuário <code>www-data</code> e o grupo <code>www-data</code> possam ler e escrever (outros não podem acessar):</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo chmod -R 770 /var/www/moodledata</code></pre>
+                    </div>
+                `
+            },
+            {
+                id: "step8",
+                title: "Passo 8: Ajustar Permissões Moodle",
+                content: `
+                    <h2>Passo 8: Ajustar Permissões do Diretório Moodle</h2>
+                    <p>Os arquivos da instalação do Moodle (localizados em <code>/var/www/html/moodle</code>) também precisam ter as permissões corretas para que o servidor web possa acessá-los adequadamente.</p>
+                    <p>1. Defina o proprietário do diretório da instalação do Moodle para o usuário do servidor web (<code>www-data</code>):</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo chown -R www-data:www-data /var/www/html/moodle</code></pre>
+                    </div>
+                    <p>2. Defina as permissões para que o usuário <code>www-data</code> possa ler e escrever, e outros possam apenas ler e executar (para diretórios):</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo chmod -R 755 /var/www/html/moodle</code></pre>
+                    </div>
+                `
+            },
+            {
+                id: "step9",
+                title: "Passo 9: Configurar max_input_vars",
+                content: `
+                    <h2>Passo 9: Configurar <code>max_input_vars</code> no PHP e Apache</h2>
+                    <p>O Moodle pode exigir um número maior de variáveis de entrada (<code>max_input_vars</code>) do que o padrão do PHP, especialmente em formulários complexos. Vamos configurar isso em dois lugares: no arquivo <code>php.ini</code> e em um arquivo <code>.htaccess</code> para o diretório do Moodle.</p>
+                    
+                    <h3>9.1: Configurar <code>max_input_vars</code> no <code>php.ini</code></h3>
+                    <p>1. Abra o arquivo de configuração do PHP para o Apache com um editor de texto (nano é usado aqui):</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo nano /etc/php/8.2/apache2/php.ini</code></pre>
+                    </div>
+                    <p>2. Dentro do editor, procure pela linha <code>max_input_vars</code>. Se ela estiver comentada (com um <code>;</code> no início), descomente-a removendo o <code>;</code>. Altere o valor para <code>5000</code>:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>; Linha original pode ser algo como:
+; max_input_vars = 1000
+; ou
+; max_input_vars = 
+
+; Altere para:
+max_input_vars = 5000</code></pre>
+                    </div>
+                    <h3>9.2: Criar arquivo <code>.htaccess</code> para <code>max_input_vars</code></h3>
+                    <p>Vamos criar um arquivo <code>.htaccess</code> dentro do diretório do Moodle para garantir que a configuração de <code>max_input_vars</code> seja aplicada especificamente ao Moodle, caso a configuração do <code>php.ini</code> não seja suficiente ou para ambientes onde não se tem acesso ao <code>php.ini</code> principal.</p>
+                    <p>1. Salve o arquivo (Ctrl+O, depois Enter no nano) e saia do editor (Ctrl+X no nano).</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo nano /var/www/html/moodle/.htaccess</code></pre>
+                    </div>
+                    
+                    <p>2. Cole dentro do arquivo o seguinte conteúdo:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>php_value max_input_vars 5000</code></pre>
+                    </div>
+</code></pre>
+                    </div>
+                    <p>Este comando cria ou sobrescreve o arquivo <code>.htaccess</code> dentro de <code>/var/www/html/moodle</code> e adiciona a linha <code>php_value max_input_vars 5000</code>.</p>
+                `
+            },
+            {
+                id: "step10",
+                title: "Passo 10: Configurar Virtual Host",
+                content: `
+                    <h2>Passo 10: Configurar Virtual Host do Apache para o Moodle</h2>
+                    <p>Um Virtual Host permite que o Apache saiba como servir o Moodle quando uma solicitação chega para um determinado nome de domínio (neste caso, usaremos <code>moodle.local</code> para desenvolvimento local). Se você tem um domínio público, usaria ele aqui.</p>
+                    <p>1. Crie um novo arquivo de configuração de Virtual Host para o Moodle:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo nano /etc/apache2/sites-available/moodle.conf</code></pre>
+                    </div>
+                    <p>2. Cole o seguinte conteúdo no arquivo. Substitua <code>admin@example.com</code> pelo seu email e <code>moodle.local</code> se estiver usando um domínio diferente:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>&lt;VirtualHost *:80&gt;
+    ServerAdmin admin@example.com
+    DocumentRoot /var/www/html/moodle
+    ServerName moodle.local
+
+    &lt;Directory /var/www/html/moodle&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog \${APACHE_LOG_DIR}/moodle_error.log
+    CustomLog \${APACHE_LOG_DIR}/moodle_access.log combined
+&lt;/VirtualHost&gt;</code></pre>
+                    </div>
+                    <ul>
+                        <li><code>DocumentRoot /var/www/html/moodle</code>: Informa ao Apache onde os arquivos do Moodle estão localizados.</li>
+                        <li><code>ServerName moodle.local</code>: Define o nome de domínio para este Virtual Host. Você pode acessá-lo no seu navegador usando <code>http://moodle.local</code> (você precisará configurar isso no seu arquivo <code>hosts</code> local, veja a nota na conclusão).</li>
+                        <li><code>&lt;Directory ...&gt;</code>: Configura as opções para o diretório do Moodle, incluindo <code>AllowOverride All</code> para permitir que o <code>.htaccess</code> funcione.</li>
+                    </ul>
+                    <p>3. Salve o arquivo (Ctrl+O, Enter) e saia do editor (Ctrl+X).</p>
+                `
+            },
+            {
+                id: "step11",
+                title: "Passo 11: Ativar Site e Módulo Rewrite",
+                content: `
+                    <h2>Passo 11: Ativar Site do Moodle e Módulo Rewrite do Apache</h2>
+                    <p>Agora que o Virtual Host está configurado, precisamos ativá-lo e também ativar o módulo <code>rewrite</code> do Apache, que é importante para URLs amigáveis no Moodle.</p>
+                    <p>1. Ative o Virtual Host do Moodle:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo a2ensite moodle.conf</code></pre>
+                    </div>
+                    <p>2. Desative o Virtual Host padrão do Apache (<code>000-default.conf</code>) para evitar conflitos, caso ele esteja ativo:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo a2dissite 000-default.conf</code></pre>
+                    </div>
+                    <p>3. Ative o módulo <code>rewrite</code> do Apache:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo a2enmod rewrite</code></pre>
+                    </div>
+                `
+            },
+            {
+                id: "step12",
+                title: "Passo 12: Reiniciar Apache",
+                content: `
+                    <h2>Passo 12: Reiniciar o Apache</h2>
+                    <p>Para que todas as alterações de configuração do Apache (novo site, módulo rewrite) entrem em vigor, precisamos reiniciar o serviço Apache.</p>
+                    <p>1. Reinicie o Apache:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo systemctl restart apache2</code></pre>
+                    </div>
+                    <p>Após este comando, o Apache estará servindo seu site Moodle (se tudo foi configurado corretamente).</p>
+                `
+            },
+            {
+                id: "step13",
+                title: "Passo 13: Verificar config.php",
+                content: `
+                    <h2>Passo 13: Verificar e Ajustar <code>config.php</code> do Moodle</h2>
+                    <p>O Moodle usa um arquivo <code>config.php</code> para suas configurações principais, incluindo detalhes do banco de dados. Este arquivo é geralmente criado durante a instalação via web. No entanto, se ele já existir ou se você precisar garantir que o tipo de banco de dados está correto para MariaDB, siga estes passos.</p>
+                    <p>1. Abra o arquivo <code>config.php</code> do Moodle para edição (se ele existir):</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo nano /var/www/html/moodle/config.php</code></pre>
+                    </div>
+                    <p>2. Procure pela linha que define <code>$CFG->dbtype</code>. Se ela estiver como <code>'mysqli'</code> (para MySQL), é recomendado alterá-la para <code>'mariadb'</code> quando se usa MariaDB, para garantir compatibilidade e otimizações específicas.</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>// Linha original (pode ser):
+$CFG->dbtype    = 'mysqli';
+
+// Altere para (recomendado para MariaDB):
+$CFG->dbtype    = 'mariadb';</code></pre>
+                    </div>
+                    <p><strong>Importante:</strong> Se o arquivo <code>config.php</code> ainda não existir (o que é comum, pois ele é criado na primeira vez que você acessa o Moodle pelo navegador para iniciar a instalação), você pode pular este passo por enquanto. O instalador web do Moodle irá criá-lo. Você pode verificar e ajustar esta configuração depois, se necessário.</p>
+                    <p>3. Salve o arquivo (Ctrl+O, Enter) e saia do editor (Ctrl+X) se você fez alterações.</p>
+                `
+            },
+            {
+                id: "conclusion",
+                title: "Conclusão e Próximos Passos",
+                content: `
+                    <h2>✅ Moodle Instalado e Configurado com Sucesso!</h2>
+                    <p>Parabéns! Se você seguiu todos os passos, o Moodle 4.2 LTS deve estar instalado e configurado no seu servidor.</p>
+                    
+                    <h3>Próximos Passos:</h3>
+                    <p>1. <strong>Configurar seu arquivo <code>hosts</code> (no seu computador local, não no servidor):</strong><br>
+                       Para acessar o Moodle pelo nome <code>moodle.local</code> (ou o ServerName que você definiu no Passo 10), você precisa adicionar uma entrada ao arquivo <code>hosts</code> do seu computador. Este arquivo mapeia nomes de host para endereços IP.</p>
+                    <ul>
+                        <li><strong>No Linux/macOS:</strong> Edite o arquivo <code>/etc/hosts</code> com permissões de superusuário (ex: <code>sudo nano /etc/hosts</code>).</li>
+                        <li><strong>No Windows:</strong> Edite o arquivo <code>C:\\Windows\\System32\\drivers\\etc\\hosts</code> como administrador.</li>
+                    </ul>
+                    <p>Adicione a seguinte linha, substituindo <code>SEU_IP_DO_SERVIDOR</code> pelo endereço IP real do seu servidor Moodle:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>SEU_IP_DO_SERVIDOR    moodle.local</code></pre>
+                    </div>
+
+                    <p>2. <strong>Acessar o Moodle pelo navegador para completar a instalação:</strong><br>
+                       Abra seu navegador web e digite <code>http://moodle.local</code> (ou o IP do seu servidor se você não configurou o arquivo <code>hosts</code>, ou o domínio que você configurou).</p>
+                    <p>Você será redirecionado para a página de instalação web do Moodle. Siga as instruções na tela para:</p>
+                    <ul>
+                        <li>Confirmar os caminhos (diretório web, diretório de dados).</li>
+                        <li>Configurar os detalhes da conexão com o banco de dados (usuário <code>moodleuser</code>, a senha que você definiu, nome do banco <code>moodle</code>).</li>
+                        <li>Criar a conta do administrador principal do Moodle.</li>
+                        <li>Definir o nome do site e outras configurações básicas.</li>
+                    </ul>
+                    <p>Se você encontrar algum problema, revise cada passo cuidadosamente e verifique os logs de erro do Apache (geralmente em <code>/var/log/apache2/moodle_error.log</code> ou <code>/var/log/apache2/error.log</code>) para mensagens de erro que possam indicar o problema.</p>
+                `
+            }
+        ];
+
+        const stepNavigation = document.getElementById('step-navigation');
+        const contentArea = document.getElementById('content-area');
+        const prevButton = document.getElementById('prev-step');
+        const nextButton = document.getElementById('next-step');
+        const copyMessage = document.getElementById('copy-message');
+        
+        let currentStepIndex = 0;
+
+        function initApp() {
+            steps.forEach((step, index) => {
+                const navItem = document.createElement('div');
+                navItem.classList.add('sidebar-item');
+                navItem.textContent = step.title;
+                navItem.dataset.index = index;
+                navItem.onclick = () => showStep(index);
+                stepNavigation.appendChild(navItem);
+
+                const contentSection = document.createElement('div');
+                contentSection.classList.add('content-section');
+                contentSection.id = step.id;
+                contentSection.innerHTML = step.content;
+                contentArea.appendChild(contentSection);
+            });
+            showStep(0);
+        }
+
+        function showStep(index) {
+            currentStepIndex = index;
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            document.querySelector(`.sidebar-item[data-index="${index}"]`).classList.add('active');
+
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(steps[index].id).classList.add('active');
+            
+            contentArea.scrollTop = 0; // Scroll to top of content area
+
+            prevButton.disabled = index === 0;
+            nextButton.disabled = index === steps.length - 1;
+        }
+
+        function copyCode(buttonElement) {
+            const preElement = buttonElement.nextElementSibling;
+            const codeElement = preElement.querySelector('code');
+            const textToCopy = codeElement.innerText;
+
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                copyMessage.classList.remove('opacity-0');
+                copyMessage.classList.add('opacity-100');
+                setTimeout(() => {
+                    copyMessage.classList.remove('opacity-100');
+                    copyMessage.classList.add('opacity-0');
+                }, 2000);
+            } catch (err) {
+                console.error('Falha ao copiar texto: ', err);
+                alert('Falha ao copiar. Por favor, copie manualmente.');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        prevButton.onclick = () => {
+            if (currentStepIndex > 0) {
+                showStep(currentStepIndex - 1);
+            }
+        };
+
+        nextButton.onclick = () => {
+            if (currentStepIndex < steps.length - 1) {
+                showStep(currentStepIndex + 1);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
