@@ -105,8 +105,7 @@
             <header class="mb-8">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-700">Guia Interativo de Instalação do Moodle 4.2 LTS</h1>
                 <p class="mt-2 text-gray-600">Siga os passos abaixo para instalar o Moodle em seu servidor Ubuntu ou Debian.</p>
-                <p class="mt-2 text-gray-600">Feito por Luciano Junior e Rafael Florindo.</p>
-                <p class="mt-2 text-gray-600">GitHub: JuniorrBraga and RafaellFlorindo</p>
+                <p class="mt-2 text-gray-600">Feito por Luciano Junior e Rafael Florindo. <br>GitHub: JuniorrBraga and RafaellFlorindo</p>
             </header>
 
             <div id="content-area" class="prose max-w-none bg-white p-6 rounded-lg shadow-md">
@@ -458,6 +457,58 @@ $CFG->dbtype    = 'mariadb';</code></pre>
                     </div>
                     <p><strong>Importante:</strong> Se o arquivo <code>config.php</code> ainda não existir (o que é comum, pois ele é criado na primeira vez que você acessa o Moodle pelo navegador para iniciar a instalação), você pode pular este passo por enquanto. O instalador web do Moodle irá criá-lo. Você pode verificar e ajustar esta configuração depois, se necessário.</p>
                     <p>3. Salve o arquivo (Ctrl+O, Enter) e saia do editor (Ctrl+X) se você fez alterações.</p>
+                `
+            },
+            {
+                id: "step14",
+                title: "Passo 14: Conectando o Moodle com o amigo",
+                content: `
+                    <h2>Passo 14: Observe seu ip para conectar.</h2>
+                    <p>Veja seu IP:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>ip a</code></pre>
+                    </div>
+                    <h2>14.1. Ajustar o arquivo de configuração do Apache</h2>
+                    <p>1. Abra o arquivo de configuração do Apache em um editor de texto. O guia que vocês usaram sugere o nano:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo nano /etc/apache2/sites-available/moodle.conf</code></pre>
+                    </div>
+                    <p>3. Localize a linha que diz <strong>ServerName moodle.local</strong> e a substitua pelo endereço de IP da sua máquina.</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>ServerName (SEU IP)</code></pre>
+                    </div>
+                    <p>Salve as alterações e saia do editor. <strong>Ctrl + O, Enter, e Ctrl + X.</strong></p>
+
+                    <h2>14.2. Ajustar o arquivo de configuração do Moodle</h2>
+                    <p>1. Abra o arquivo config.php do Moodle.</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo nano /var/www/html/moodle/config.php</code></pre>
+                    </div>
+                    <p>2. Dentro deste arquivo, procure pela linha que define <strong>$CFG->wwwroot</strong>. Ela provavelmente estará configurada com <strong>http://moodle.local</strong>.</p>
+                    <p>3. Altere o valor de <strong>$CFG->wwwroot</strong> para o endereço de IP correto da sua máquina.</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>$CFG->wwwroot = 'http://(SEU IP)';</code></pre>
+                    </div>
+                    <p>Salve as alterações e saia do editor. <strong>Ctrl + O, Enter, e Ctrl + X.</strong></p>
+                `
+            },
+            {
+                id: "step15",
+                title: "Passo 15: Reiniciar o Apache",
+                content: `
+                    <h2>Passo 15: Reiniciar o Apache</h2>
+                    <p>Para que todas as alterações de configuração do Apache (novo site, módulo rewrite) entrem em vigor, precisamos reiniciar o serviço Apache.</p>
+                    <p>1. Reinicie o Apache:</p>
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                        <pre><code>sudo systemctl restart apache2</code></pre>
+                    </div>
+                    <p>Após este comando, o Apache estará servindo seu site Moodle (se tudo foi configurado corretamente).</p>
                 `
             },
             {
