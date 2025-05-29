@@ -525,30 +525,8 @@ $CFG->dbtype    = 'mariadb';</code></pre>
                 content: `
                     <h2>✅ Moodle Instalado e Configurado com Sucesso!</h2>
                     <p>Parabéns! Se você seguiu todos os passos, o Moodle 4.2 LTS deve estar instalado e configurado no seu servidor.</p>
-                    
-                    <h3>Próximos Passos:</h3>
-                    <p>1. <strong>Configurar seu arquivo <code>hosts</code> (no seu computador local, não no servidor):</strong><br>
-                       Para acessar o Moodle pelo nome <code>moodle.local</code> (ou o ServerName que você definiu no Passo 10), você precisa adicionar uma entrada ao arquivo <code>hosts</code> do seu computador. Este arquivo mapeia nomes de host para endereços IP.</p>
-                    <ul>
-                        <li><strong>No Linux/macOS:</strong> Edite o arquivo <code>/etc/hosts</code> com permissões de superusuário (ex: <code>sudo nano /etc/hosts</code>).</li>
-                        <li><strong>No Windows:</strong> Edite o arquivo <code>C:\\Windows\\System32\\drivers\\etc\\hosts</code> como administrador.</li>
-                    </ul>
-                    <p>Adicione a seguinte linha, substituindo <code>SEU_IP_DO_SERVIDOR</code> pelo endereço IP real do seu servidor Moodle:</p>
-                    <div class="code-block">
-                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        <pre><code>SEU_IP_DO_SERVIDOR    moodle.local</code></pre>
-                    </div>
-
-                    <p>2. <strong>Acessar o Moodle pelo navegador para completar a instalação:</strong><br>
-                       Abra seu navegador web e digite <code>http://moodle.local</code> (ou o IP do seu servidor se você não configurou o arquivo <code>hosts</code>, ou o domínio que você configurou).</p>
-                    <p>Você será redirecionado para a página de instalação web do Moodle. Siga as instruções na tela para:</p>
-                    <ul>
-                        <li>Confirmar os caminhos (diretório web, diretório de dados).</li>
-                        <li>Configurar os detalhes da conexão com o banco de dados (usuário <code>moodleuser</code>, a senha que você definiu, nome do banco <code>moodle</code>).</li>
-                        <li>Criar a conta do administrador principal do Moodle.</li>
-                        <li>Definir o nome do site e outras configurações básicas.</li>
-                    </ul>
-                    <p>Se você encontrar algum problema, revise cada passo cuidadosamente e verifique os logs de erro do Apache (geralmente em <code>/var/log/apache2/moodle_error.log</code> ou <code>/var/log/apache2/error.log</code>) para mensagens de erro que possam indicar o problema.</p>
+                    <h2> Para abrir o moodle de seu amigo, basta digitar o ip dele em seu navegador</h2>
+                    <p>Atenção: Não é necessário digitar <strong>http://</strong>
                 `
             }
         ];
